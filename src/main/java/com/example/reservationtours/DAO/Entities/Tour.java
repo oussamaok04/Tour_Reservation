@@ -1,0 +1,31 @@
+package com.example.reservationtours.DAO.Entities;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Tour {
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id_tour;
+    private String titre;
+    private String description;
+    private LocalTime duree;
+    private boolean isDisponible;
+    private int nombre_place;
+    private LocalDate date;
+    private double prix;
+    private float evaluation;
+    @OneToMany
+    private List<Reservation> reservations = new ArrayList<>();
+}
