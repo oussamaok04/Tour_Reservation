@@ -20,10 +20,12 @@ public class Tour {
     private Long id_tour;
     private String titre;
     private String description;
-    private LocalTime duree;
+    @Temporal(TemporalType.TIME)
+    private Date duree;
     private boolean isDisponible;
     private int nombre_place;
-    private LocalDate date;
+    @Temporal(TemporalType.DATE)
+    private Date date;
     private double prix;
     private float evaluation;
     @OneToMany

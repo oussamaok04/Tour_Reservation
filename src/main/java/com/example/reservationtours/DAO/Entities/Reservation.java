@@ -17,5 +17,6 @@ public class Reservation {
     private User user;
     @ManyToOne
     private Tour tour;
+    @Temporal(TemporalType.DATE)
     private Date date_reservation;
 }
