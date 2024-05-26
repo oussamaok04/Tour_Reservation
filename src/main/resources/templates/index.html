@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Start of Loop -->
+        <div class="col-md-2 mb-4" th:each="tour : ${tours}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${tour.getTitre()}"></h5>
+                    <p class="card-text"><strong>Start:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}"></span></p>
+                    <p class="card-text"><strong>Duration:</strong> <span th:text="${#dates.format(tour.getDuree(), 'hh:mm')}"></span> min</p>
+                    <a href="#" class="btn btn-primary" th:href="@{/tours(id=${tour.getId_tour()})}">Details</a>
+                </div>
+            </div>
+        </div>
+        <!-- End of Loop -->
+    </div>
+</div>
+</body>
+</html>

@@ -8,14 +8,18 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Data
-@AllArgsConstructor @NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor
 public class Reservation {
+
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_reservation;
+
     @ManyToOne
     private User user;
+
     @ManyToOne
     private Tour tour;
+
+    @Temporal(TemporalType.DATE)
     private Date date_reservation;
 }
