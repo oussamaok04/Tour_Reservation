@@ -48,6 +48,7 @@ public class TourServiceImpl implements TourService {
         return tourRepository.save(tour);
     }
 
+    //Fixed a typo problem in editTour
     @Override
     public Tour editTour(Long id, Tour tour) throws Exception {
         Optional<Tour> tourToEdit = tourRepository.findById(id);
@@ -65,14 +66,15 @@ public class TourServiceImpl implements TourService {
             tourFromDb.setNombre_place(tour.getNombre_place());
             tourFromDb.setReservations(tour.getReservations());
         } else {
-            throw new Exception("Reservation was not found : EditRes");
+            throw new Exception("Tour was not found : EditRes");
         }
 
         return tourRepository.save(tourFromDb);
     }
 
+    //Added deleteTour method
     @Override
     public void deleteTour(Long id) {
-
+        tourRepository.deleteById(id);
     }
 }
