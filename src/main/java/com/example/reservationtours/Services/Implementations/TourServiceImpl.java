@@ -29,13 +29,16 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Tour getTourById(Long id) throws Exception {
-        Optional<Tour> tour = tourRepository.findById(id);
-        if (tour.isPresent()){
-            return tour.get();
-        } else {
-            throw new Exception("Reservaation was not found : FindResById");
-        }
+//    public Tour getTourById(Long id) throws Exception {
+//        Optional<Tour> tour = tourRepository.findById(id);
+//        if (tour.isPresent()){
+//            return tour.get();
+//        } else {
+//            throw new Exception("Reservaation was not found : FindResById");
+//        }
+//    }
+    public Tour getTourById(Long id) {
+        return tourRepository.findById(id).orElse(null);
     }
 
     @Override

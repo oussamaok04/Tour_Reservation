@@ -32,7 +32,7 @@ public class TourController {
     }
 
     //Retourne une page qui contient les informations d'une tour
-    @GetMapping("/detail")
+    @GetMapping("/details")
     public String getTourDetails(Model model, @RequestParam("id") Long id){
         try {
             Tour t = service.getTourById(id);
