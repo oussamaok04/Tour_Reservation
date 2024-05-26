@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>New reservation</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>New Reservation</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/reservations}" th:object="${reservation}" method="post">
+                <div class="mb-3">
+                    <label for="user" class="form-label">User</label>
+                    <input type="text" class="form-control" id="user" th:field="*{user}">
+                </div>
+                <div class="mb-3">
+                    <label for="tour" class="form-label">Tour</label>
+                    <input type="text" class="form-control" id="tour" th:field="*{tour}">
+                </div>
+                <div class="mb-3">
+                    <label for="date_reservation" class="form-label">Reservation Date</label>
+                    <input type="date" class="form-control" id="date_reservation" th:field="*{date_reservation}">
+                </div>
+                <button type="submit" class="btn btn-primary">Reserve</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
