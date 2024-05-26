@@ -80,7 +80,7 @@ public class TourController {
         return "editTour";
     }
     //Todo : Tester save w edit
-    @GetMapping("/edit")
+    @PostMapping("/edit")
     public String editTour(@ModelAttribute("t") Tour tour, Model model){
         service.addTour(tour);
         return "editTour";

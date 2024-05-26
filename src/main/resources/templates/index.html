@@ -18,7 +18,7 @@
                             <h5 class="card-title" th:text="${tour.getTitre()}"></h5>
                             <p class="card-text"><strong>Start:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}"></span></p>
                             <p class="card-text"><strong>Duration:</strong> <span th:text="${#dates.format(tour.getDuree(), 'hh:mm')}"></span> hrs</p>
-                            <a href="#" class="btn btn-primary" th:href="@{/tours(id=${tour.getId_tour()})}">Details</a>
+                            <a href="#" class="btn btn-primary" th:href="@{/tours/details(id=${tour.getId_tour()})}">Details</a>
                         </div>
                     </div>
                 </div>
