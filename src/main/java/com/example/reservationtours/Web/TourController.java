@@ -58,6 +58,7 @@ public class TourController {
         tourToSave.setDuree(tour.getDuree());
         tourToSave.setNombre_place(tour.getNombre_place());
         tourToSave.setDescription(tour.getDescription());
+        tourToSave.setDisponible(true);
         tourToSave.setReservations(new ArrayList<>());
         service.addTour(tourToSave);
         return "redirect:/tours/all";
