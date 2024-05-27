@@ -2,23 +2,28 @@ package com.example.reservationtours.Services.Implementations;
 
 import com.example.reservationtours.DAO.Entities.Reservation;
 import com.example.reservationtours.DAO.Entities.Tour;
+import com.example.reservationtours.DAO.Repositories.ReservationRepository;
 import com.example.reservationtours.DAO.Repositories.RoleRepository;
 import com.example.reservationtours.DAO.Repositories.TourRepository;
 import com.example.reservationtours.Services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class TourServiceImpl implements TourService {
 
     TourRepository tourRepository;
+    ReservationRepository reservationRepository;
 
     @Autowired
-    public TourServiceImpl(TourRepository repo){
+    public TourServiceImpl(TourRepository repo, ReservationRepository reservationRepository){
         this.tourRepository = repo;
+        this.reservationRepository = reservationRepository;
     }
 
     //************************* implementations *****************
@@ -78,6 +83,13 @@ public class TourServiceImpl implements TourService {
     //Added deleteTour method
     @Override
     public void deleteTour(Long id) {
+        Tour tour = tourRepository.findById(id).orElse(null);
+        if (tour == null) throw new RuntimeException("User not found (deleteTourById");
+        if (!tour.getReservations().isEmpty()){
+            for (Reservation r: tour.getReservations()) {
+                reservationRepository.deleteById(r.getId_reservation());
+            }
+        }
         tourRepository.deleteById(id);
     }
 }
