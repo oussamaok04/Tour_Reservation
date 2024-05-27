@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="template1">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New reservation</title>
+    <title>New Reservation</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
 </head>
 <body>
@@ -17,17 +15,20 @@
             <form th:action="@{/reservations}" th:object="${reservation}" method="post">
                 <div class="mb-3">
                     <label for="user" class="form-label">User</label>
-                    <input type="text" class="form-control" id="user" th:field="*{user}">
+                    <input type="text" class="form-control" id="user" name="" th:value="${reservation.getUser().getName()}" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="tour" class="form-label">Tour</label>
-                    <input type="text" class="form-control" id="tour" th:field="*{tour}">
+                    <input type="text" class="form-control" id="tour" th:value="${reservation.getTour().getTitre()}" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="date_reservation" class="form-label">Reservation Date</label>
-                    <input type="date" class="form-control" id="date_reservation" th:field="*{date_reservation}">
+                    <input type="date" class="form-control" id="date_reservation"  th:value="${formattedDate}" readonly>
                 </div>
+<!--                    <input type="text" class="form-control" id="tourId" th:value="${reservation.getTour().getTitre()}" readonly>-->
+
                 <button type="submit" class="btn btn-primary">Reserve</button>
+                <a href="#" class="btn btn-danger" th:href="@{/tours/all}">Annuler</a>
             </form>
         </div>
     </div>
