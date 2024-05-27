@@ -10,6 +10,7 @@
 <body>
     <div layout:fragment="content">
         <div class="container mt-5">
+            <a class="btn btn-success mb-3" th:href="@{/tours/save}">Add Tour</a>
             <div class="row">
                 <!-- Start of Loop -->
                 <div class="col-md-2 mb-4" th:each="tour : ${tours}">
@@ -17,7 +18,7 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="${tour.getTitre()}"></h5>
                             <p class="card-text"><strong>Start:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}"></span></p>
-                            <p class="card-text"><strong>Duration:</strong> <span th:text="${#dates.format(tour.getDuree(), 'hh:mm')}"></span> hrs</p>
+                            <p class="card-text"><strong>Duration:</strong> <span th:text="${tour.getDuree()}"></span> hrs</p>
                             <a href="#" class="btn btn-primary" th:href="@{/tours/details(id=${tour.getId_tour()})}">Details</a>
                         </div>
                     </div>

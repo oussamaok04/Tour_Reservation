@@ -52,7 +52,7 @@ public class ReservationToursApplication {
                 t1.setNombre_place((int)Math.floor(Math.random() * 10));
                 t1.setDate(new Date());
                 t1.setPrix(150.0);
-                t1.setDuree(new Date());
+                t1.setDuree("02:00");
                 tRepo.save(t1);
 
                 //Create User

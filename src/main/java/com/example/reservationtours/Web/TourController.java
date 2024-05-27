@@ -1,8 +1,6 @@
 package com.example.reservationtours.Web;
 
-import com.example.reservationtours.DAO.Entities.Reservation;
 import com.example.reservationtours.DAO.Entities.Tour;
-import com.example.reservationtours.Services.RoleService;
 import com.example.reservationtours.Services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,11 +30,12 @@ public class TourController {
     }
 
     //Retourne une page qui contient les informations d'une tour
-    @GetMapping("/detail")
+    @GetMapping("/details")
     public String getTourDetails(Model model, @RequestParam("id") Long id){
         try {
             Tour t = service.getTourById(id);
             model.addAttribute("tour", t);
+           // model.addAttribute("tourId", id);
         } catch (Exception e) {
             System.out.println("Tour was not found");
         }
@@ -56,6 +55,7 @@ public class TourController {
         tourToSave.setTitre(tour.getTitre());
         tourToSave.setDate(tour.getDate());
         tourToSave.setPrix(tour.getPrix());
+        tourToSave.setDuree(tour.getDuree());
         tourToSave.setNombre_place(tour.getNombre_place());
         tourToSave.setDescription(tour.getDescription());
         tourToSave.setReservations(new ArrayList<>());
@@ -74,6 +74,7 @@ public class TourController {
         try {
             Tour tour = service.getTourById(id);
             model.addAttribute("t", tour);
+            model.addAttribute("tourId", id);
         } catch (Exception e) {
             System.out.println("Tour not found");
         }
@@ -81,8 +82,8 @@ public class TourController {
     }
     //Todo : Tester save w edit
     @PostMapping("/edit")
-    public String editTour(@ModelAttribute("t") Tour tour, Model model){
+    public String editTour(@ModelAttribute("t") Tour tour, Model model) {
         service.addTour(tour);
-        return "editTour";
+        return "redirect:/tours/details?id="+tour.getId_tour();
     }
 }

@@ -6,9 +6,10 @@ import com.example.reservationtours.DAO.Repositories.RoleRepository;
 import com.example.reservationtours.Services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
+@Transactional
 @Service
 public class RoleServiceImpl implements RoleService {
 
