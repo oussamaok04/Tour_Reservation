@@ -78,7 +78,7 @@ public class ReservationController {
     private User getCurrentUser() {
         User user = new User();
         user.setId_user(1L); // Assurez-vous que cet ID existe dans votre base de données
-        user.setName("defaultUser");
+        user.setUsername("defaultUser");
         return user;
     }
 }
