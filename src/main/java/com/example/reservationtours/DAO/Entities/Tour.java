@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Tour {
+public class   Tour {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_tour;
 
