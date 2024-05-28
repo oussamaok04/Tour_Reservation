@@ -5,6 +5,8 @@ import com.example.reservationtours.DAO.Entities.User;
 import com.example.reservationtours.DAO.Repositories.UserRepository;
 import com.example.reservationtours.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +17,13 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository repo){
         this.userRepository = repo;
+
     }
 
     //************************* implementations *****************
@@ -35,6 +40,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
 
@@ -46,7 +53,7 @@ public class UserServiceImpl implements UserService {
         if (userToEdit.isPresent()){
             userFromDb = userToEdit.get();
             userFromDb.setEmail(user.getEmail());
-            userFromDb.setName(user.getName());
+            userFromDb.setUsername(user.getUsername());
             userFromDb.setRoles(user.getRoles());
             userFromDb.setPassword(user.getPassword());
         } else {
@@ -59,5 +66,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void DeleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 }

@@ -13,13 +13,13 @@ import java.util.Set;
 @Entity
 @Data
 @AllArgsConstructor @NoArgsConstructor
-@Table(name = "the_user")
+@Table(name = "user_app")
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_user;
-    private String name;
+    private String username;
     private String email;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
 }

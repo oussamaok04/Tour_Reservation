@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -22,9 +23,9 @@
             <!-- Button pour reserver (Doesn't work yet) -->
             <a class="btn btn-success" th:href="@{/reservations/new/{tourId}(tourId=${tour.getId_tour()})}">Make a Reservation</a>
             <!-- Button Edit -->
-            <a class="btn btn-primary ms-auto" th:href="@{/tours/edit(id=${tour.getId_tour()})}">Edit Tour</a>
+            <a class="btn btn-primary ms-auto" sec:authorize="hasAuthority('ADMIN')" th:href="@{/tours/edit(id=${tour.getId_tour()})}">Edit Tour</a>
             <!-- Button Delete -->
-            <a class="btn btn-danger ms-auto" onclick="return confirm('All reservations will be deleted too, Are You Sure?')" th:href="@{/tours/delete(id=${tour.getId_tour()})}">Delete Tour</a>
+            <a class="btn btn-danger ms-auto" sec:authorize="hasAuthority('ADMIN')" onclick="return confirm('All reservations will be deleted too, Are You Sure?')" th:href="@{/tours/delete(id=${tour.getId_tour()})}">Delete Tour</a>
         </div>
     </div>
     <!-- Retourner a la liste des tours -->

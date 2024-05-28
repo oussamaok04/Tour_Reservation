@@ -11,10 +11,11 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor @AllArgsConstructor
+@Table(name = "role_app")
 public class Role {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_role;
-    private String role;
+    private String roleName;
     @ManyToMany(mappedBy = "roles")
     Set<User> users = new HashSet<>();
 

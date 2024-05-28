@@ -7,4 +7,5 @@ public interface RoleService {
     Role addRole(Role role);
     Role editRole(Long id, Role role) throws Exception;
     void DeleteRole(Long id);
+    Role findByRoleName(String roleName);
 }

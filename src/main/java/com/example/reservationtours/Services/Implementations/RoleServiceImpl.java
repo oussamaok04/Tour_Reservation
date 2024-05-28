@@ -34,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
 
         if (roleToEdit.isPresent()){
             roleFromDb = roleToEdit.get();
-            roleFromDb.setRole(role.getRole());
+            roleFromDb.setRoleName(role.getRoleName());
             roleFromDb.setUsers(role.getUsers());
         } else {
             throw new Exception("Reservation was not found : EditRes");
@@ -46,5 +46,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void DeleteRole(Long id) {
         roleRepository.deleteById(id);
+    }
+
+    @Override
+    public Role findByRoleName(String roleName) {
+        return roleRepository.findRoleByRoleName(roleName);
     }
 }

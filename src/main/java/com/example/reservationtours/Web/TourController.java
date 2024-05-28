@@ -22,6 +22,11 @@ public class TourController {
     }
 
     //Retourne la list des tours
+    @GetMapping({"/", "", "/index"})
+    public String home(Model model){
+        return "redirect:/tours/all";
+    }
+
     @GetMapping("/all")
     public String allTours(Model model){
         List<Tour> tours = service.getAllTours();
