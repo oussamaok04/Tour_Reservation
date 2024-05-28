@@ -1,12 +1,15 @@
-
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="template1">
 <head>
     <meta charset="UTF-8">
     <title>New Reservation</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
 </head>
 <body>
+<div layout:fragment="content">
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
@@ -17,12 +20,20 @@
                 <div class="mb-3">
                     <label for="user" class="form-label">User</label>
                     <input type="text" class="form-control" id="user" th:field="*{user.username}" readonly>
-                    <input type="hidden" th:field="*{user.id_user}" />
+                    <input type="hidden" name="user" th:field="*{user.id_user}" />
                 </div>
                 <div class="mb-3">
                     <label for="tour" class="form-label">Tour</label>
                     <input type="text" class="form-control" id="tour" th:field="*{tour.titre}" readonly>
-                    <input type="hidden" th:field="*{tour.id_tour}" />
+                    <input type="hidden" name="tour" th:field="*{tour.id_tour}" />
+                    <input type="hidden" name="tour" th:field="*{tour.nombre_place}" />
+                    <input type="hidden" name="tour" th:field="*{tour.date}" />
+                    <input type="hidden" name="tour" th:field="*{tour.prix}" />
+                    <input type="hidden" name="tour" th:field="*{tour.evaluation}" />
+                    <input type="hidden" name="tour" th:field="*{tour.duree}" />
+                    <input type="hidden" name="tour" th:field="*{tour.disponible}" />
+                    <input type="hidden" name="tour" th:field="*{tour.description}" />
+
                 </div>
                 <div class="mb-3">
                     <label for="date_reservation" class="form-label">Reservation Date</label>
@@ -35,5 +46,6 @@
         </div>
     </div>
 </div>
+    </div>
 </body>
 </html>

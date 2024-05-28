@@ -76,6 +76,7 @@ package com.example.reservationtours.Services.Implementations;
 
 import com.example.reservationtours.DAO.Entities.Reservation;
 import com.example.reservationtours.DAO.Entities.Tour;
+import com.example.reservationtours.DAO.Entities.User;
 import com.example.reservationtours.DAO.Repositories.ReservationRepository;
 import com.example.reservationtours.Services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,5 +139,10 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Reservation> getReservationByUser(User user) {
+        return reservationRepository.findByUser(user);
     }
 }

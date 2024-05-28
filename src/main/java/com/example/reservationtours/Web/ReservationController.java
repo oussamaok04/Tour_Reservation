@@ -5,11 +5,15 @@ import com.example.reservationtours.DAO.Entities.Tour;
 import com.example.reservationtours.DAO.Entities.User;
 import com.example.reservationtours.Services.ReservationService;
 import com.example.reservationtours.Services.TourService;
+import com.example.reservationtours.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -20,11 +24,19 @@ public class ReservationController {
 
     private final ReservationService reservationService;
     private final TourService tourService;
-
+    private final UserService userService;
     @Autowired
-    public ReservationController(ReservationService reservationService, TourService tourService) {
+    public ReservationController(ReservationService reservationService, TourService tourService, UserService userService) {
         this.reservationService = reservationService;
         this.tourService = tourService;
+        this.userService = userService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
     @GetMapping("/reservations/new/{tourId}")
@@ -47,15 +59,8 @@ public class ReservationController {
 
     @Transactional
     @PostMapping("/reservations")
-    public String makeReservation(@ModelAttribute("reservation") Reservation reservation, BindingResult result, Model model) throws Exception {
-        if (result.hasErrors()) {
-            // Recharger les données nécessaires pour réafficher le formulaire
-            Tour tour = tourService.getTourById(reservation.getTour().getId_tour());
-            reservation.setTour(tour);
-            model.addAttribute("reservation", reservation);
-            return "reservation_form";
-        }
-
+    public String makeReservation(@ModelAttribute("reservation") Reservation reservation, Model model) throws Exception {
+        System.out.println(reservation);
         Tour tour = tourService.getTourById(reservation.getTour().getId_tour());
 
         if (tour.getNombre_place() > 0) {
@@ -63,7 +68,10 @@ public class ReservationController {
             tour.setNombre_place(tour.getNombre_place() - 1);
 
             // Ajoutez la réservation à la liste des réservations du tour
-            reservation.setTour(tour); // Ajoutez cette ligne pour s'assurer que la réservation est liée au tour
+            reservation.setTour(tour);
+            // Sauvegardez la réservation
+            reservationService.addReservation(reservation);
+            // Ajoutez cette ligne pour s'assurer que la réservation est liée au tour
             tour.getReservations().add(reservation);
 
             // Mettez à jour la disponibilité du tour
@@ -75,7 +83,7 @@ public class ReservationController {
             tourService.editTour(tour.getId_tour(), tour);
 
             // Sauvegardez la réservation
-            reservationService.addReservation(reservation);
+            // reservationService.addReservation(reservation);
 
             return "redirect:/tours/all";
         } else {
@@ -83,11 +91,27 @@ public class ReservationController {
             return "no-availability";
         }
     }
+    @GetMapping("/reservations/all")
+    public String allReservation(Model model){
+        model.addAttribute("reservations",reservationService.getAllReservations());
+        return "listReservation";
+    }
+    @GetMapping("/reservations/user")
+    public String userReservation(Model model){
+        User user=getCurrentUser();
+        model.addAttribute("reservations",reservationService.getReservationByUser(user));
+        return "listReservation";
+    }
 
-    private User getCurrentUser() {
-        User user = new User();
-        user.setId_user(1L); // Assurez-vous que cet ID existe dans votre base de données
-        user.setUsername("defaultUser");
+private User getCurrentUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null) {
+        String username = authentication.getName();
+        // Vous pouvez utiliser ce nom d'utilisateur pour récupérer les détails de l'utilisateur depuis votre service UserService
+        // Par exemple: User user = userService.findByUsername(username);
+        User user = userService.findByUsername(username);
         return user;
     }
+    return null;
+}
 }

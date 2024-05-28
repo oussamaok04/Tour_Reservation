@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="template1">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            <h2 th:text="${tour.getTitre()}">Tour Title</h2>
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h2 th:text="${tour.getTitre()}">Tour Title</h2>
+            </div>
+            <div class="card-body">
+                <p><strong>Description:</strong></p>
+                <p><span th:text="${tour.getDescription()}"></span> </p>
+                <p><strong>Duration:</strong> <span th:text="${tour.getDuree()}">Duration</span> hours</p>
+                <p><strong>Available:</strong> <span th:text="${tour.isDisponible() ? 'Yes' : 'No'}">Availability</span></p>
+                <p><strong>Number of Places:</strong> <span th:text="${tour.getNombre_place()}">Number of Places</span></p>
+                <p><strong>Date:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}">Date</span></p>
+                <p><strong>Price:</strong> $<span th:text="${tour.getPrix()}">Price</span></p>
+                <!--Button pour afficher les reservation-->
+                <a class="btn btn-info" sec:authorize="hasAuthority('ADMIN')" th:href="@{/tours/reservations(id=${tour.getId_tour()})}">Reservations</a>
+                <!-- Button pour réserver -->            <!-- Button pour reserver  -->
+                <a class="btn btn-success" th:href="@{/reservations/new/{tourId}(tourId=${tour.getId_tour()})}">Make a Reservation</a>
+                <!-- Button Edit -->
+                <a class="btn btn-primary ms-auto" sec:authorize="hasAuthority('ADMIN')" th:href="@{/tours/edit(id=${tour.getId_tour()})}">Edit Tour</a>
+                <!-- Button Delete -->
+                <a class="btn btn-danger ms-auto" sec:authorize="hasAuthority('ADMIN')" onclick="return confirm('All reservations will be deleted too, Are You Sure?')" th:href="@{/tours/delete(id=${tour.getId_tour()})}">Delete Tour</a>
+            </div>
         </div>
-        <div class="card-body">
-            <p><strong>Description:</strong></p>
-            <p><span th:text="${tour.getDescription()}"></span> </p>
-            <p><strong>Duration:</strong> <span th:text="${tour.getDuree()}">Duration</span> hours</p>
-            <p><strong>Available:</strong> <span th:text="${tour.isDisponible() ? 'Yes' : 'No'}">Availability</span></p>
-            <p><strong>Number of Places:</strong> <span th:text="${tour.getNombre_place()}">Number of Places</span></p>
-            <p><strong>Date:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}">Date</span></p>
-            <p><strong>Price:</strong> $<span th:text="${tour.getPrix()}">Price</span></p>
-            <!--Button pour afficher les reservation-->
-            <a class="btn btn-info" sec:authorize="hasAuthority('ADMIN')" th:href="@{/tours/reservations(id=${tour.getId_tour()})}">Reservations</a>
-            <!-- Button pour réserver -->            <!-- Button pour reserver  -->
-            <a class="btn btn-success" th:href="@{/reservations/new/{tourId}(tourId=${tour.getId_tour()})}">Make a Reservation</a>
-            <!-- Button Edit -->
-            <a class="btn btn-primary ms-auto" sec:authorize="hasAuthority('ADMIN')" th:href="@{/tours/edit(id=${tour.getId_tour()})}">Edit Tour</a>
-            <!-- Button Delete -->
-            <a class="btn btn-danger ms-auto" sec:authorize="hasAuthority('ADMIN')" onclick="return confirm('All reservations will be deleted too, Are You Sure?')" th:href="@{/tours/delete(id=${tour.getId_tour()})}">Delete Tour</a>
-        </div>
+        <!-- Retourner a la liste des tours -->
+        <a class="btn btn-secondary mt-3" th:href="@{/tours/all}">Back to Tour List</a>
     </div>
-    <!-- Retourner a la liste des tours -->
-    <a class="btn btn-secondary mt-3" th:href="@{/tours/all}">Back to Tour List</a>
 </div>
+
 </body>
 </html>

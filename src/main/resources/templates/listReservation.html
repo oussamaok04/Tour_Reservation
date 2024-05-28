@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>ALl reservations</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content">
+<div class="container mt-5">
+<table class="table align-middle">
+    <!--l'entete du tableau-->
+    <thead>
+    <tr>
+        <td>User</td>
+        <td>Titre de tour</td>
+        <td>Date de reservation</td>
+
+    </tr>
+    </thead>
+    <!--le contenue du tableau-->
+    <tbody>
+    <!--on affiche le contenue de listEmployee passer par le model-->
+    <tr th:each="r:${reservations}">
+        <td th:text="${r.user.username}"></td>
+        <td th:text="${r.tour.titre}"></td>
+        <td th:text="${r.date_reservation}"></td>
+
+    </tr>
+    </tbody>
+</table>
+    </div>
+</div>
+</body>
+</html>

@@ -58,9 +58,13 @@ public class ReservationToursApplication {
             user.setPassword("1234");
             user.getRoles().add(role2);
             uservice.addUser(user);
-
+//            User user2 = new User();
+//            user.setUsername("user2");
+//            user.setPassword("1234");
+//            user.getRoles().add(role2);
+//            uservice.addUser(user);
             for (int i = 0; i < 15; i++) {
-                //Create Tour
+//                Create Tour
                 Tour t1 = new Tour();
                 t1.setId_tour(null);
                 t1.setTitre("Tour"+i);
@@ -72,32 +76,32 @@ public class ReservationToursApplication {
                 t1.setDuree("02:00");
                 tRepo.save(t1);
 
-                //Create User
-//                User u1 = new User();
-//                u1.setId_user(null);
-//                if (Math.random()>0.5){
-//                    //Insert role "USER" and "ADMIN"
-//                    u1.getRoles().add(role1);
-//                    u1.getRoles().add(role2);
-//                } else {
-//                    //Insert role "USER"
-//                    u1.getRoles().add(role2);
-//                }
-//                u1.setUsername("Oussama"+i);
-//                u1.setEmail("o.ok"+i+"@gmail.com");
-//                u1.setPassword("123456789");
-//                uRepo.save(u1);
-//
-//                for (Role r: u1.getRoles()) {
-//                    if (r.getRoleName().equals("ADMIN")) {
-//                        role2.getUsers().add(u1); //Insert u1 in role "USER"
-//                        role1.getUsers().add(u1); //Insert u1 in role "ADMIN"
-//                        roleRepo.save(role2);
-//                    } else {
-//                        role2.getUsers().add(u1);
-//                        roleRepo.save(role1);
-//                    }
-//                }
+ //               Create User
+                User u1 = new User();
+                u1.setId_user(null);
+                if (Math.random()>0.5){
+                    //Insert role "USER" and "ADMIN"
+                    u1.getRoles().add(role1);
+                    u1.getRoles().add(role2);
+                } else {
+                    //Insert role "USER"
+                    u1.getRoles().add(role2);
+                }
+                u1.setUsername("Oussama"+i);
+                u1.setEmail("o.ok"+i+"@gmail.com");
+                u1.setPassword("123456789");
+                uRepo.save(u1);
+
+                for (Role r: u1.getRoles()) {
+                    if (r.getRoleName().equals("ADMIN")) {
+                        role2.getUsers().add(u1); //Insert u1 in role "USER"
+                        role1.getUsers().add(u1); //Insert u1 in role "ADMIN"
+                        roleRepo.save(role2);
+                    } else {
+                        role2.getUsers().add(u1);
+                        roleRepo.save(role1);
+                    }
+                }
 
                 //Create Reservation
                 Reservation r1 = new Reservation();
