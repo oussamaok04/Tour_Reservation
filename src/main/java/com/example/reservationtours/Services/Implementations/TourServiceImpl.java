@@ -3,10 +3,11 @@ package com.example.reservationtours.Services.Implementations;
 import com.example.reservationtours.DAO.Entities.Reservation;
 import com.example.reservationtours.DAO.Entities.Tour;
 import com.example.reservationtours.DAO.Repositories.ReservationRepository;
-import com.example.reservationtours.DAO.Repositories.RoleRepository;
 import com.example.reservationtours.DAO.Repositories.TourRepository;
 import com.example.reservationtours.Services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,4 +93,13 @@ public class TourServiceImpl implements TourService {
         }
         tourRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Tour> findByTitreContaining(String keyword, Pageable pageable) {
+        return tourRepository.findByTitreContaining(keyword,pageable);
+    }
+
+
+
+
 }

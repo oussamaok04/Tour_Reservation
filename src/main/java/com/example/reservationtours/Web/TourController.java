@@ -5,6 +5,8 @@ import com.example.reservationtours.DAO.Entities.Tour;
 import com.example.reservationtours.Services.ReservationService;
 import com.example.reservationtours.Services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +32,35 @@ public class TourController {
         return "redirect:/tours/all";
     }
 
-    @GetMapping("/all")
-    public String allTours(Model model){
-        List<Tour> tours = service.getAllTours();
-        model.addAttribute("tours", tours);
-        return "index";
-    }
+
+//    @GetMapping("/all")
+//    public String allTours(Model model,
+//                           @RequestParam(name = "page", defaultValue = "0") int page,
+//                           @RequestParam(name = "size", defaultValue = "6") int size,
+//                           @RequestParam(name = "search", defaultValue = "") String keyword) {
+//        Page<Tour> tours = service.findByTitreContaining(keyword, PageRequest.of(page, size));
+//        model.addAttribute("tours", tours);
+//
+//        // Pass the keyword for pagination links
+//        model.addAttribute("keyword", keyword);
+//
+//        return "index";
+//    }
+@GetMapping("/all")
+public String allTours(Model model,
+                       @RequestParam(name = "page", defaultValue = "0") int page,
+                       @RequestParam(name = "size", defaultValue = "6") int size,
+                       @RequestParam(name = "search", defaultValue = "") String keyword) {
+    Page<Tour> tours = service.findByTitreContaining(keyword, PageRequest.of(page, size));
+    int[] pages = new int[tours.getTotalPages()];
+    for (int i = 0; i < pages.length; i++) pages[i] = i;
+    model.addAttribute("pages", pages);
+    model.addAttribute("tours", tours.getContent());
+    model.addAttribute("currentPage", page); // Ajout de l'attribut currentPage
+    model.addAttribute("keyword", keyword); // Ajout de l'attribut keyword
+    return "index";
+}
+
 
     //Retourne une page qui contient les informations d'une tour
     @GetMapping("/details")

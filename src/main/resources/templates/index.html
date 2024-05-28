@@ -1,32 +1,106 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
+<!--    layout:decorate="template1">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div layout:fragment="content">-->
+<!--        <div class="container mt-5">-->
+<!--                <form method="get" th:action="@{/tours/all}">-->
+<!--                    &lt;!&ndash; Creation et initialisation du input sherch avec la valeur keyword passer par le model  &ndash;&gt;-->
+<!--                    <input type="text" name="search" th:value="${keyword}"  th:placeholder="Rechercher"/>-->
+<!--                    &lt;!&ndash;Creation du button search de type submit avec lui on lance la recherche&ndash;&gt;-->
+<!--                    <button class="btn btn-primary" type="submit">Search</button>-->
+<!--                </form>-->
+<!--            <a class="btn btn-success mb-3" sec:authorize="hasAuthority('ADMIN')" th:href="@{/tours/save}">Add Tour</a>-->
+<!--            <div class="row">-->
+<!--                &lt;!&ndash; Start of Loop &ndash;&gt;-->
+<!--                <div class="col-md-2 mb-4" th:each="tour : ${tours}">-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title" th:text="${tour.getTitre()}"></h5>-->
+<!--                            <p class="card-text"><strong>Start:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}"></span></p>-->
+<!--                            <p class="card-text"><strong>Duration:</strong> <span th:text="${tour.getDuree()}"></span> hrs</p>-->
+<!--                            <a href="#" class="btn btn-primary" th:href="@{/tours/details(id=${tour.getId_tour()})}">Details</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash; End of Loop &ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;    pagination&ndash;&gt;-->
+<!--        <div class="container">-->
+<!--            <ul class ="nav-pills">-->
+<!--                &lt;!&ndash; ceation et initialisation des page (keyWord,pageRequest.of(page,taille))&ndash;&gt;-->
+<!--                <li class="nav-item me-2" th:each="p,stat:${pages}">-->
+<!--                    <a th:class="${stat.index == currentPage} ? 'btn btn-primary' : 'btn btn-outline-primary'"-->
+<!--                       class="btn btn-outline-primary"-->
+<!--                       th:text="${stat.index + 1}"-->
+<!--                       th:href="@{index(page=${stat.index},search=${keyword})}"-->
+<!--                    >-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    layout:decorate="template1">
+      layout:decorate="template1">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
 </head>
 <body>
-    <div layout:fragment="content">
-        <div class="container mt-5">
-            <a class="btn btn-success mb-3" sec:authorize="hasAuthority('ADMIN')" th:href="@{/tours/save}">Add Tour</a>
-            <div class="row">
-                <!-- Start of Loop -->
-                <div class="col-md-2 mb-4" th:each="tour : ${tours}">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${tour.getTitre()}"></h5>
-                            <p class="card-text"><strong>Start:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}"></span></p>
-                            <p class="card-text"><strong>Duration:</strong> <span th:text="${tour.getDuree()}"></span> hrs</p>
-                            <a href="#" class="btn btn-primary" th:href="@{/tours/details(id=${tour.getId_tour()})}">Details</a>
-                        </div>
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <form method="get" th:action="@{/tours/all}">
+            <!-- Creation et initialisation du input search avec la valeur keyword passée par le modèle -->
+            <input type="text" name="search" th:value="${keyword}"  th:placeholder="Rechercher"/>
+            <!-- Creation du bouton search de type submit avec lequel on lance la recherche -->
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+        <a class="btn btn-success mb-3" sec:authorize="hasAuthority('ADMIN')" th:href="@{/tours/save}">Add Tour</a>
+        <div class="row">
+            <!-- Début de la boucle pour afficher les tours -->
+            <div class="col-md-2 mb-4" th:each="tour : ${tours}">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${tour.getTitre()}"></h5>
+                        <p class="card-text"><strong>Start:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}"></span></p>
+                        <p class="card-text"><strong>Duration:</strong> <span th:text="${tour.getDuree()}"></span> hrs</p>
+                        <a href="#" class="btn btn-primary" th:href="@{/tours/details(id=${tour.getId_tour()})}">Details</a>
                     </div>
                 </div>
-                <!-- End of Loop -->
             </div>
+            <!-- Fin de la boucle -->
         </div>
     </div>
+    <!-- Pagination -->
+    <div class="container">
+        <!-- Utilisation de la classe nav pour la liste de pagination -->
+        <ul class="nav">
+            <!-- Boucle pour afficher les pages -->
+            <li class="nav-item me-2" th:each="p,stat:${pages}">
+                <a th:class="${stat.index == currentPage} ? 'btn btn-primary' : 'btn btn-outline-primary'"
+                   class="btn btn-outline-primary"
+                   th:text="${stat.index + 1}"
+<!--                   th:href="@{/tours/all(page=${stat.index},search=${keyword})}"-->
+                   th:href="@{/tours/all(page=${stat.index},size=${size},search=${keyword})}">
+                >
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>
