@@ -9,15 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Controller
 public class ReservationController {
-
 
     private final ReservationService reservationService;
     private final TourService tourService;
@@ -36,6 +35,7 @@ public class ReservationController {
         User user = getCurrentUser(); // Implémentez cette méthode pour obtenir l'utilisateur connecté
         reservation.setUser(user);
         reservation.setDate_reservation(new Date());
+
         // Formater la date en chaîne de caractères
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(reservation.getDate_reservation());
@@ -44,17 +44,26 @@ public class ReservationController {
         model.addAttribute("formattedDate", formattedDate);
         return "reservation_form";
     }
+
     @Transactional
     @PostMapping("/reservations")
-    public String makeReservation(@ModelAttribute("reservation") Reservation reservation,Model model) throws Exception {
+    public String makeReservation(@ModelAttribute("reservation") Reservation reservation, BindingResult result, Model model) throws Exception {
+        if (result.hasErrors()) {
+            // Recharger les données nécessaires pour réafficher le formulaire
+            Tour tour = tourService.getTourById(reservation.getTour().getId_tour());
+            reservation.setTour(tour);
+            model.addAttribute("reservation", reservation);
+            return "reservation_form";
+        }
 
-        Tour tour = reservation.getTour();
-        System.out.println(reservation.toString());
+        Tour tour = tourService.getTourById(reservation.getTour().getId_tour());
+
         if (tour.getNombre_place() > 0) {
             // Diminuez le nombre de places disponibles
             tour.setNombre_place(tour.getNombre_place() - 1);
 
             // Ajoutez la réservation à la liste des réservations du tour
+            reservation.setTour(tour); // Ajoutez cette ligne pour s'assurer que la réservation est liée au tour
             tour.getReservations().add(reservation);
 
             // Mettez à jour la disponibilité du tour
