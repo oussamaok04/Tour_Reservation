@@ -94,9 +94,8 @@
                 <a th:class="${stat.index == currentPage} ? 'btn btn-primary' : 'btn btn-outline-primary'"
                    class="btn btn-outline-primary"
                    th:text="${stat.index + 1}"
-<!--                   th:href="@{/tours/all(page=${stat.index},search=${keyword})}"-->
                    th:href="@{/tours/all(page=${stat.index},size=${size},search=${keyword})}">
-                >
+
                 </a>
             </li>
         </ul>
