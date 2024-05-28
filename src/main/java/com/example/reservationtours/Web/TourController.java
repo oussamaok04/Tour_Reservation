@@ -1,6 +1,8 @@
 package com.example.reservationtours.Web;
 
+import com.example.reservationtours.DAO.Entities.Reservation;
 import com.example.reservationtours.DAO.Entities.Tour;
+import com.example.reservationtours.Services.ReservationService;
 import com.example.reservationtours.Services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,11 @@ import java.util.List;
 public class TourController {
 
     TourService service;
-
+    ReservationService reservationService;
     @Autowired
-    public TourController(TourService service){
+    public TourController(TourService service, ReservationService reservationService){
         this.service = service;
+        this.reservationService=reservationService;
     }
 
     //Retourne la list des tours
@@ -87,4 +90,19 @@ public class TourController {
         service.addTour(tour);
         return "redirect:/tours/details?id="+tour.getId_tour();
     }
+    // Nouveau mapping pour afficher les réservations d'un tour
+    @GetMapping("/reservations")
+    public String getReservationsForTour(@RequestParam("id") Long id, Model model) {
+        try {
+            Tour tour = service.getTourById(id);
+            List<Reservation> reservations = reservationService.getReservationByTour(tour);
+            model.addAttribute("tour", tour);
+            model.addAttribute("reservations", reservations);
+        } catch (Exception e) {
+            System.out.println("Tour not found");
+        }
+        return "tourReservations";
+    }
+
+
 }
