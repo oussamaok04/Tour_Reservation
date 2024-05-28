@@ -104,7 +104,7 @@ public class ReservationToursApplication {
                 r1.setId_reservation(null);
                 r1.setDate_reservation(new Date());
                 r1.setTour(t1);
-                //r1.setUser(u1);
+                r1.setUser(user);
                 rRepo.save(r1);
 
                 //Add Reservation to Tour

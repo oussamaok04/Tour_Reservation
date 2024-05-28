@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="reservation : ${reservations}">
-                    <td th:text="${reservation.user.name}">User Name</td>
+                    <td th:text="${reservation.getUser().getUsername()}">User Name</td>
                     <td th:text="${#dates.format(reservation.date_reservation, 'dd MMM yyyy')}">Reservation Date</td>
                     <td>
                         <!-- Add actions if needed -->
