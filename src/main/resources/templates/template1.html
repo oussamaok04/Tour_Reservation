@@ -42,7 +42,7 @@
                         <li><a class="dropdown-item" sec:authorize="isAnonymous()" th:href="@{/login}">Login</a></li>
                         <li><a class="dropdown-item" sec:authorize="hasAuthority('USER')" th:href="@{/reservations/user}">My reservations</a></li>
                         <li><a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" th:href="@{/reservations/all}">All reservations</a></li>
-                        <li><a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" href="#">Users list</a></li>
+                        <li><a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin/users/all}">Users list</a></li>
                         <li><a class="dropdown-item" sec:authorize="isAuthenticated()" href="/login?logout">Logout</a></li>
                     </ul>
                 </li>

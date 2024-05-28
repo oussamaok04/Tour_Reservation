@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 @Transactional
 @Service
@@ -71,5 +72,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findUserByUsername(username);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        List<User> users = userRepository.findAll();
+//        for (User u: users) {
+//            for (Role r: u.getRoles()) {
+//                if (r.getRoleName().equals("ADMIN")){
+//                    users.remove(u);
+//                }
+//            }
+//        }
+        return users;
     }
 }
