@@ -19,7 +19,9 @@
             <p><strong>Number of Places:</strong> <span th:text="${tour.getNombre_place()}">Number of Places</span></p>
             <p><strong>Date:</strong> <span th:text="${#dates.format(tour.getDate(), 'dd MMM yyyy')}">Date</span></p>
             <p><strong>Price:</strong> $<span th:text="${tour.getPrix()}">Price</span></p>
-            <!-- Button pour reserver (Doesn't work yet) -->
+            <!--Button pour afficher les reservation-->
+            <a class="btn btn-info" th:href="@{/tours/reservations(id=${tour.getId_tour()})}">Reservations</a>
+            <!-- Button pour réserver -->            <!-- Button pour reserver  -->
             <a class="btn btn-success" th:href="@{/reservations/new/{tourId}(tourId=${tour.getId_tour()})}">Make a Reservation</a>
             <!-- Button Edit -->
             <a class="btn btn-primary ms-auto" th:href="@{/tours/edit(id=${tour.getId_tour()})}">Edit Tour</a>
