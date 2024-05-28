@@ -10,5 +10,6 @@ public interface ReservationService {
     Reservation getReservationById(Long id) throws Exception;
     Reservation addReservation(Reservation reservation);
     Reservation editReservation(Long id, Reservation reservation) throws Exception;
+    List<Reservation> getReservationByTour(Tour tour);
     void deleteReservation(Long id);
 }
